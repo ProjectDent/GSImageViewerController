@@ -103,7 +103,7 @@ public class GSImageViewerController: UIViewController {
     public convenience init(imageInfo: GSImageInfo, transitionInfo: GSTransitionInfo) {
         self.init(imageInfo: imageInfo)
         self.transitionInfo = transitionInfo
-        if let fromView = transitionInfo.fromView, referenceView = fromView.superview {
+        if let fromView = transitionInfo.fromView, let referenceView = fromView.superview {
             self.transitioningDelegate = self
             self.modalPresentationStyle = .Custom
             transitionInfo.convertedRect = referenceView.convertRect(fromView.frame, toView: nil)
@@ -320,9 +320,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
-        guard let containerView = transitionContext.containerView() else {
-            return
-        }
+        let containerView = transitionContext.containerView()
         
         let tempMask = UIView()
             tempMask.backgroundColor = UIColor.blackColor()
